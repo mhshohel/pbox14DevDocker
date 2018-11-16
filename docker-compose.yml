@@ -27,7 +27,6 @@ services:
             #Local
 #            - ~/.ssh/:/var/www/.ssh/:ro
         working_dir: /var/www/html/pbox14
-#        command: ["usermod -u 1000 www-data", "usermod -G staff www-data"]
         networks:
             - openresty-apache-network
         restart: unless-stopped

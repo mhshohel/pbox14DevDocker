@@ -9,6 +9,8 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/pbox14
 RUN apt-get update && \
 	apt-get -y install sudo && \
 	apt-get -y install git && \
+	apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
 	sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
 	sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf && \
 	ln -sf /dev/stdout /var/log/apache2/access.log && \
