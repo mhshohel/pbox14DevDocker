@@ -22,4 +22,4 @@ RUN apt-get update && \
 # Need to change folder permission in the server to 1000 and run it to change container's
 # folder permission to www-data
 RUN usermod -u 1000 www-data
-#RUN usermod -G staff www-data
+RUN usermod -G root www-data
