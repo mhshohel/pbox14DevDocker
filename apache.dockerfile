@@ -17,6 +17,7 @@ RUN apt-get update && \
 	docker-php-ext-install pdo pdo_mysql && \
 	docker-php-ext-install mbstring
 
-
+# Need to change folder permission in the server to 1000 and run it to change container's
+# folder permission to www-data
 RUN usermod -u 1000 www-data
 #RUN usermod -G staff www-data
