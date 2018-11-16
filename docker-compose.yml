@@ -1,0 +1,61 @@
+version: '3.7'
+
+x-source-mount:
+  &pb-source-mount
+    type: bind
+    source: ./../var/www/html/pbox14/
+    target: /var/www/html/pbox14/
+
+x-cert-mount:
+  &pb-cert-mount
+    type: bind
+    source: ./../efs/
+    target: /efs/
+
+services:
+    apache:
+        build:
+            context: .
+            dockerfile: apache.dockerfile
+        image: apache_pb
+        read_only: false
+        volumes:
+            - *pb-source-mount
+            - *pb-cert-mount
+            #Server
+#            - /root/.ssh/:/var/www/.ssh/:ro
+            #Local
+            - ~/.ssh/:/var/www/.ssh/:ro
+        working_dir: /var/www/html/pbox14
+#        command: ["usermod -u 1000 www-data", "usermod -G staff www-data"]
+        networks:
+            - openresty-apache-network
+        restart: unless-stopped
+
+    openresty:
+        build:
+            context: .
+            dockerfile: openresty.dockerfile
+        image: openresty_pb
+        read_only: false
+        volumes:
+            - ./usr/local/openresty/nginx/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+            - *pb-source-mount
+            - *pb-cert-mount
+        depends_on:
+            - apache
+        working_dir: /var/www/html/pbox14
+        ports:
+            - "80:90"
+        networks:
+            - openresty-apache-network
+        restart: unless-stopped
+
+
+networks:
+    openresty-apache-network:
+        driver: bridge
+
+
+
+#git clone --depth 1 -b pb-new-salesite-enzo https://github.com/portfoliobox/pbox14.git
