@@ -23,9 +23,9 @@ services:
             - *pb-source-mount
             - *pb-cert-mount
             #Server
-#            - /root/.ssh/:/var/www/.ssh/:ro
+            - /root/.ssh/:/var/www/.ssh/:ro
             #Local
-            - ~/.ssh/:/var/www/.ssh/:ro
+#            - ~/.ssh/:/var/www/.ssh/:ro
         working_dir: /var/www/html/pbox14
 #        command: ["usermod -u 1000 www-data", "usermod -G staff www-data"]
         networks:
