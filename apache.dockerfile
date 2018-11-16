@@ -18,5 +18,5 @@ RUN apt-get update && \
 	docker-php-ext-install mbstring
 
 
-#RUN usermod -u 1000 www-data
+RUN usermod -u 1000 www-data
 #RUN usermod -G staff www-data
