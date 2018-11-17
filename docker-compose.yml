@@ -23,9 +23,9 @@ services:
             - *pb-source-mount
             - *pb-cert-mount
             #Server
-            - /root/.ssh/:/var/www/.ssh/:ro
+#            - /root/.ssh/:/var/www/.ssh/:ro
             #Local
-#            - ~/.ssh/:/var/www/.ssh/:ro
+            - ~/.ssh/:/var/www/.ssh/:ro
         working_dir: /var/www/html/pbox14
         networks:
             - openresty-apache-network
@@ -39,6 +39,7 @@ services:
         read_only: false
         volumes:
             - ./usr/local/openresty/nginx/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+            - ./usr/local/openresty/nginx/conf/nginxdefault.conf:/usr/local/openresty/nginx/conf/nginxdefault.conf:ro
             - *pb-source-mount
             - *pb-cert-mount
         depends_on:
