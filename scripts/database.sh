@@ -21,7 +21,7 @@ if [ -d ${ROOT} ]; then
 
 	for VARIABLE in ${KEYS}
 	do
-		echo $\db["'default'"]["'"${VARIABLE}"'"] "=" $(echo ${OUTPUT} | jq '.'${VARIABLE})";" >> ${FILENAME}
+		 echo '$'"db[""'default'""][""'"${VARIABLE}"'""] =" $(echo ${OUTPUT} | jq '.'${VARIABLE})";" >> ${FILENAME}
 	done
 
 else
