@@ -50,6 +50,10 @@ services:
         networks:
             - openresty-apache-network
         restart: unless-stopped
+        logging:
+            driver: awslogs
+            options:
+                awslogs-group: "docker-logs"
 
 
 networks:
