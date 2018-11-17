@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-#This is Portfoliobox App Server NGINX Config
-
-#env                                 ENC_ENV_KEY=4V+A-fW7%RpWCb=D;
-#env                                 ENC_ENV_IV=F?@Znk?D^f*6M@F$;
-#
-#include                             /var/www/html/pbox14/nginx/conf/nginx.conf;
-
 NGINX_DEFAULT="usr/local/openresty/nginx/conf";
 FILENAME=${NGINX_DEFAULT}"/nginx.conf"
 
 > ${FILENAME}
 
-echo "env ENC_ENV_KEY=4V+A-fW7%RpWCb=D;" >> ${FILENAME}
+OUTPUT="$(aws secretsmanager get-secret-value --secret-id pbadmin | jq -r '.SecretString')"
+KEYS="$(echo ${OUTPUT} | jq -r 'keys | .[]')"
 
-echo "env ENC_ENV_IV=F?@Znk?D^f*6M@F$;" >> ${FILENAME}
+
+echo "<?php" >> ${FILENAME}
+
+for VARIABLE in ${KEYS}
+do
+	echo "env" ${VARIABLE}"="$(echo ${OUTPUT} | jq -r '.'${VARIABLE})";"
+done
 
 echo "include nginxdefault.conf;" >> ${FILENAME}
